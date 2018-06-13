@@ -9,16 +9,19 @@
 	(global.Vue = factory());
 }(this, (function () { 'use strict';
 
-/*  */
+/* 0613-001 freeze是什么意思 */
 
 var emptyObject = Object.freeze({});
 
 // these helpers produces better vm code in JS engines due to their
 // explicitness and function inlining
+
+// ### 0613-002 是不是undefined
 function isUndef (v) {
   return v === undefined || v === null
 }
 
+// ### 0613-003 是不是undefined
 function isDef (v) {
   return v !== undefined && v !== null
 }
@@ -34,6 +37,8 @@ function isFalse (v) {
 /**
  * Check if value is primitive
  */
+ 
+// ### 0613-004 是不是原始类型 
 function isPrimitive (value) {
   return (
     typeof value === 'string' ||
@@ -49,6 +54,7 @@ function isPrimitive (value) {
  * Objects from primitive values when we know the value
  * is a JSON-compliant type.
  */
+ // 是不是Object
 function isObject (obj) {
   return obj !== null && typeof obj === 'object'
 }
@@ -56,6 +62,7 @@ function isObject (obj) {
 /**
  * Get the raw type string of a value e.g. [object Object]
  */
+ 
 var _toString = Object.prototype.toString;
 
 function toRawType (value) {
@@ -66,10 +73,12 @@ function toRawType (value) {
  * Strict object type check. Only returns true
  * for plain JavaScript objects.
  */
+ 
+// 是不是纯粹的对象
 function isPlainObject (obj) {
   return _toString.call(obj) === '[object Object]'
 }
-
+//  是不是正则对象
 function isRegExp (v) {
   return _toString.call(v) === '[object RegExp]'
 }
@@ -77,6 +86,8 @@ function isRegExp (v) {
 /**
  * Check if val is a valid array index.
  */
+ 
+
 function isValidArrayIndex (val) {
   var n = parseFloat(String(val));
   return n >= 0 && Math.floor(n) === n && isFinite(val)
@@ -85,6 +96,7 @@ function isValidArrayIndex (val) {
 /**
  * Convert a value to a string that is actually rendered.
  */
+
 function toString (val) {
   return val == null
     ? ''
@@ -106,10 +118,9 @@ function toNumber (val) {
  * Make a map and return a function for checking if a key
  * is in that map.
  */
-function makeMap (
-  str,
-  expectsLowerCase
-) {
+
+
+function makeMap (str,expectsLowerCase) {
   var map = Object.create(null);
   var list = str.split(',');
   for (var i = 0; i < list.length; i++) {
@@ -215,6 +226,7 @@ var bind = Function.prototype.bind
   ? nativeBind
   : polyfillBind;
 
+//   ---------------- 适配简单绑定
 /**
  * Convert an Array-like object to a real Array.
  */
@@ -270,6 +282,7 @@ var identity = function (_) { return _; };
 
 /**
  * Generate a static keys string from compiler modules.
+ *	从编辑器模板生成静态字符串key 
  */
 function genStaticKeys (modules) {
   return modules.reduce(function (keys, m) {
@@ -280,6 +293,7 @@ function genStaticKeys (modules) {
 /**
  * Check if two values are loosely equal - that is,
  * if they are plain objects, do they have the same shape?
+   检测两个值是不是相等的
  */
 function looseEqual (a, b) {
   if (a === b) { return true }
@@ -314,6 +328,7 @@ function looseEqual (a, b) {
   }
 }
 
+// 那个是相等的
 function looseIndexOf (arr, val) {
   for (var i = 0; i < arr.length; i++) {
     if (looseEqual(arr[i], val)) { return i }
@@ -322,6 +337,7 @@ function looseIndexOf (arr, val) {
 }
 
 /**
+ * 确保函数只调用一次
  * Ensure a function is called only once.
  */
 function once (fn) {
@@ -336,14 +352,16 @@ function once (fn) {
 
 var SSR_ATTR = 'data-server-rendered';
 
+// 组件 指令 管道符
 var ASSET_TYPES = [
   'component',
   'directive',
   'filter'
 ];
 
+// 生命周期钩子
 var LIFECYCLE_HOOKS = [
-  'beforeCreate',
+  'beforeCreate', 
   'created',
   'beforeMount',
   'mounted',
@@ -355,6 +373,7 @@ var LIFECYCLE_HOOKS = [
   'deactivated',
   'errorCaptured'
 ];
+// end 613
 
 /*  */
 
